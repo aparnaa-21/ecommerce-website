@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>House of Aparna — Boutique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">House of <span>Aparna</span></div>
+  <div class="nav-right">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()" />
+      <button onclick="filterProducts()">Search</button>
+    </div>
+    <button class="cart-btn" onclick="openCart()">
+      🛒 Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <span class="nav-user">👤 Sign In</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="heroSection">
+  <h1>✦ House of Aparna ✦</h1>
+  <p>Discover thousands of products at unbeatable prices. Fast delivery, easy returns.</p>
+  <div class="hero-btns">
+    <button class="btn-hero" onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+    <button class="btn-hero outline">View Deals</button>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="categories" id="categoriesSection">
+  <div class="cat-chip active" onclick="filterCategory('All', this)">All</div>
+  <div class="cat-chip" onclick="filterCategory('Electronics', this)">📱 Electronics</div>
+  <div class="cat-chip" onclick="filterCategory('Clothing', this)">👕 Clothing</div>
+  <div class="cat-chip" onclick="filterCategory('Books', this)">📚 Books</div>
+  <div class="cat-chip" onclick="filterCategory('Home', this)">🏠 Home & Living</div>
+  <div class="cat-chip" onclick="filterCategory('Sports', this)">⚽ Sports</div>
+  <div class="cat-chip" onclick="filterCategory('Beauty', this)">💄 Beauty</div>
+  <div class="cat-chip" onclick="filterCategory('Toys', this)">🧸 Toys</div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="shopMain">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h3>Sort By</h3>
+    <select class="sort-select" onchange="sortProducts(this.value)">
+      <option value="default">Featured</option>
+      <option value="price-low">Price: Low to High</option>
+      <option value="price-high">Price: High to Low</option>
+      <option value="rating">Top Rated</option>
+      <option value="name">Name A-Z</option>
+    </select>
+
+    <h3>Price Range</h3>
+    <div class="price-range">
+      <input type="range" min="0" max="2000" value="2000" id="priceFilter" oninput="applyPriceFilter(this.value)" />
+      <div class="price-labels"><span>₹0</span><span id="priceLabel">₹2000</span></div>
+    </div>
+
+    <h3>Min Rating</h3>
+    <div class="rating-filter">
+      <label><input type="radio" name="rating" value="0" checked onchange="applyRatingFilter(0)" /> <span class="stars">★★★★★</span> All</label>
+      <label><input type="radio" name="rating" value="4" onchange="applyRatingFilter(4)" /> <span class="stars">★★★★</span> 4+</label>
+      <label><input type="radio" name="rating" value="3" onchange="applyRatingFilter(3)" /> <span class="stars">★★★</span> 3+</label>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="products-section" id="productsSection">
+    <div class="products-header">
+      <h2>Products</h2>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</div>
+
+<!-- CHECKOUT PAGE -->
+<div class="checkout-page" id="checkoutPage">
+  <button class="back-btn" onclick="closeCheckout()">← Back to Shop</button>
+  <div class="checkout-card">
+    <h2>📦 Delivery Details</h2>
+    <div class="form-row">
+      <div class="form-group"><label>First Name</label><input type="text" placeholder="Aparna" /></div>
+      <div class="form-group"><label>Last Name</label><input type="text" placeholder="Kumar" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="aparna@email.com" /></div>
+      <div class="form-group"><label>Phone Number</label><input type="text" placeholder="+91 9876543210" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="flex:2"><label>Street Address</label><input type="text" placeholder="123, Anna Nagar" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>City</label><input type="text" placeholder="Chennai" /></div>
+      <div class="form-group"><label>State</label>
+        <select>
+          <option>Tamil Nadu</option><option>Karnataka</option><option>Andhra Pradesh</option><option>Kerala</option><option>Maharashtra</option>
+        </select>
+      </div>
+      <div class="form-group"><label>PIN Code</label><input type="text" placeholder="600001" /></div>
+    </div>
+  </div>
+  <div class="checkout-card">
+    <h2>💳 Payment Details</h2>
+    <div class="form-row">
+      <div class="form-group" style="flex:2"><label>Card Number</label><input type="text" placeholder="1234  5678  9012  3456" maxlength="19" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Cardholder Name</label><input type="text" placeholder="APARNA KUMAR" /></div>
+      <div class="form-group"><label>Expiry</label><input type="text" placeholder="MM/YY" /></div>
+      <div class="form-group"><label>CVV</label><input type="password" placeholder="•••" maxlength="3" /></div>
+    </div>
+    <div style="background:rgba(95,191,138,0.1); border:1px solid rgba(95,191,138,0.3); border-radius:6px; padding:10px 14px; font-size:0.82rem; color:#5fbf8a; margin-top:0.5rem;">
+      🔒 Your payment information is encrypted and secure.
+    </div>
+  </div>
+  <div class="checkout-card" id="orderSummaryCard">
+    <h2>🧾 Order Summary</h2>
+    <div id="checkoutSummary"></div>
+  </div>
+  <button class="place-order-btn" onclick="placeOrder()">✅ Place Order</button>
+</div>
+
+<!-- SUCCESS PAGE -->
+<div class="success-page" id="successPage">
+  <div class="tick">✅</div>
+  <h2>Order Placed Successfully!</h2>
+  <p>Thank you for shopping with House of Aparna. Your order is being processed.</p>
+  <div class="order-id" id="orderId">Order ID: #HOA-000000</div>
+  <br/>
+  <button class="continue-btn" onclick="continueShopping()">Continue Shopping</button>
+</div>
+
+<!-- FOOTER -->
+<footer id="footerEl">
+  <strong>House of Aparna</strong> &copy; 2025 | Built with HTML, CSS & JavaScript
+</footer>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h2>🛒 Your Cart</h2>
+    <button class="close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-summary" id="cartSummary"></div>
+    <button class="checkout-btn" onclick="goToCheckout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="productModal">
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-brand" id="modalBrand"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-rating" id="modalRating"></div>
+      <div class="stock-badge" id="modalStock"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-actions">
+        <button class="modal-add-btn" id="modalAddBtn" onclick="addFromModal()">Add to Cart</button>
+        <button class="modal-close" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
